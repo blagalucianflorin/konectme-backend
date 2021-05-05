@@ -14,8 +14,8 @@ class CreateChatsTable extends Migration
     public function up()
     {
         Schema::create('chats', function (Blueprint $table) {
-            $table->id();
-            $table-> foreignId('users');
+            $table -> id();
+            $table -> text('users');
             $table -> string('name', 64);
         });
     }
