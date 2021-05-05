@@ -43,7 +43,7 @@ class UserController extends Controller
             return ($validator -> failed ());
 
         do {
-            $token = Str::random (255);
+            $token = Str::random (191);
         } while (User::where("token", "=", $token)->first() instanceof User);
 
         $newUser               = new User;

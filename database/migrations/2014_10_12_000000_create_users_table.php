@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table -> string ('username', 191) -> unique ();
             $table -> timestamp ('created_at') ->default (DB::raw ('CURRENT_TIMESTAMP'));
             $table -> foreignId ('photo_id') -> nullable ();
-            $table -> string ('token', 255) -> unique ();
+            $table -> string ('token', 191) -> unique ();
         });
     }
 
