@@ -15,18 +15,10 @@ class MessageController extends Controller
     public function index()
     {
         $messages = Message::all();
+
         return (json_encode($messages));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,13 +36,11 @@ class MessageController extends Controller
         $newChat = ($request -> all())['chat_id'];
         $newMessage['chat_id'] = $newChat;
 
-        // $newSent = ($request->all())['sent_at'];
-        // $newMessage['sent_at'] = $newSent;
-
         $newContent = ($request -> all())['content'];
         $newMessage['content'] = $newContent;
 
         $newMessage -> save();
+
         return (true);
     }
 
@@ -63,22 +53,12 @@ class MessageController extends Controller
     public function show($id)
     {
         $message = Message::findOrFail($id);
-        return json_encode(['sender_id' => $message['sender_id'], 
+        return json_encode(['sender_id' => $message['sender_id'],
                             'chat_id' => $message['chat_id'],
                             'sent_at' => $message['sent_at'],
                             'content' => $message['content']]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -97,15 +77,13 @@ class MessageController extends Controller
         $newChat = ($request -> all())['chat_id'];
         $message['chat_id'] = $newChat;
 
-        // $newSent = ($request->all())['sent_at'];
-        // $message['sent_at'] = $newSent;
-
         $newContent = ($request -> all())['content'];
         $message['content'] = $newContent;
 
         $message -> save();
+
         return (true);
-         
+
     }
 
     /**
@@ -117,7 +95,9 @@ class MessageController extends Controller
     public function destroy($id)
     {
         $message = Message::findOrFail($id);
+
         $message -> delete();
+
         return (true);
     }
 }
