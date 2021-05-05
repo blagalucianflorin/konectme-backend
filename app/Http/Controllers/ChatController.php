@@ -18,15 +18,6 @@ class ChatController extends Controller
         return (json_encode($chats));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,7 +30,7 @@ class ChatController extends Controller
         $newChat = new Chat;
 
         $newUsers = ($request -> all())['users'];
-        $newChat['users'] = $newChat;
+        $newChat['users'] = $newUsers;
 
         $newName = ($request -> all())['name'];
         $newChat['name'] = $newName;
@@ -58,20 +49,12 @@ class ChatController extends Controller
     public function show($id)
     {
         $chat = Chat::findOrFail($id);
-        return json_encode(['users' => $chat['users'], 
-                            'name' => $chat['name']]);
+        return json_encode([
+            'users' => $chat['users'],
+            'name' => $chat['name']
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Chat  $chat
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Chat $chat)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -89,8 +72,9 @@ class ChatController extends Controller
 
         $newName = ($request -> all())['name'];
         $chat['name'] = $newName;
-        
+
         $chat -> save();
+
         return (true);
     }
 
@@ -103,7 +87,9 @@ class ChatController extends Controller
     public function destroy($id)
     {
         $chat = Chat::findOrFail($id);
+
         $chat -> delete();
+
         return (true);
     }
 }
