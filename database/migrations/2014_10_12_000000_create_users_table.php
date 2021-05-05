@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
@@ -20,8 +21,8 @@ class CreateUsersTable extends Migration
             $table -> string ('password');
             $table -> string ('first_name');
             $table -> string ('last_name');
-            $table -> string ('username') -> unique ();
-            $table -> timestamp ('created_at') -> default (DB::raw ('CURRENT_TIMESTAMP'));
+            $table -> string ('username', 191) -> unique ();
+            $table -> timestamp ('created_at') ->default (DB::raw ('CURRENT_TIMESTAMP'));
             $table -> foreignId ('photo_id') -> nullable ();
             $table -> string ('token', 255) -> unique ();
         });
