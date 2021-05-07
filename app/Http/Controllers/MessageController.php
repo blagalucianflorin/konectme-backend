@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -11,13 +12,13 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return
      */
     public function index()
     {
         $messages = Message::all();
 
-        return (json_encode($messages));
+        return (json_encode ($messages));
     }
 
 
@@ -54,7 +55,10 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        $message = Message::findOrFail($id);
+        $message = Message::find($id);
+
+        if ($message == null)
+            return (json_encode (false));
 
         return json_encode([
             'sender_id' => $message['sender_id'],
@@ -70,39 +74,38 @@ class MessageController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Message  $message
-     * @return \Illuminate\Http\Response
+     * @return
      */
     public function update(Request $request, $id)
     {
-        $message = Message::findOrFail($id);
+        $message = Message::find ($id);
 
-        $newSender = ($request -> all())['sender_id'];
-        $message['sender_id'] = $newSender;
+        if ($message == null)
+            return (json_encode (false));
 
-        $newChat = ($request -> all())['chat_id'];
-        $message['chat_id'] = $newChat;
-
-        $newContent = ($request -> all())['content'];
+        $newContent         = ($request -> all())['content'];
         $message['content'] = $newContent;
 
         $message -> save();
 
-        return (true);
-
+        return (json_encode (true));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Message  $message
-     * @return \Illuminate\Http\Response
+     * @return
      */
     public function destroy($id)
     {
-        $message = Message::findOrFail($id);
+        $message = Message::find($id);
+
+        if ($message == null)
+            return (json_encode (false));
 
         $message -> delete();
 
-        return (true);
+        return (json_encode (true));
     }
 }
