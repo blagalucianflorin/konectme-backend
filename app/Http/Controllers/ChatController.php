@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -30,6 +31,11 @@ class ChatController extends Controller
         $newChat = new Chat;
 
         $newUsers = ($request -> all())['users'];
+        foreach(json_decode($newUsers) as $user)
+            {
+               if(User::find($user) == null)
+                    return json_encode(false);
+            }
         $newChat['users'] = $newUsers;
 
         $newName = ($request -> all())['name'];
@@ -68,11 +74,24 @@ class ChatController extends Controller
         $chat = Chat::findOrFail($id);
 
         $newUsers = ($request -> all())['users'];
+        foreach(json_decode($newUsers) as $user)
+        {
+           if(User::find($user) == null)
+                return json_encode(false);
+        }
+
         $chat['users'] = $newUsers;
 
-        $newName = ($request -> all())['name'];
-        $chat['name'] = $newName;
+        $chat -> save();
 
+        $newName = ($request -> all())['name'];
+       
+        //dd(json_decode($newUsers));
+
+        if(count(json_decode($newUsers)) >= 3)
+            $chat['name'] = $newName;
+        else return json_encode(false);
+       
         $chat -> save();
 
         return (true);
