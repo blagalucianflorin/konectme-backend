@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\Chat;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -28,7 +29,14 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $newMessage = new Message;
+        $newMessage       = new Message;
+        $reqContent       = $request -> all ();
+        $verificationChat = Chat::findOrFail ($reqContent['chat_id']);
+        $usersList        = $verificationChat['users'];
+
+
+        dd($usersList);
+
 
         $newSender = ($request -> all())['sender_id'];
         $newMessage['sender_id'] = $newSender;
