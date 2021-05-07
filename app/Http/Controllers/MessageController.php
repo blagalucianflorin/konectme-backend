@@ -25,46 +25,43 @@ class MessageController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return
      */
     public function store(Request $request)
     {
         $newMessage       = new Message;
         $reqContent       = $request -> all ();
         $verificationChat = Chat::findOrFail ($reqContent['chat_id']);
-        $usersList        = $verificationChat['users'];
+        $usersList        = json_decode ($verificationChat['users']);
 
+        if (!in_array ($reqContent['sender_id'], $usersList))
+            return (json_encode (false));
 
-        dd($usersList);
-
-
-        $newSender = ($request -> all())['sender_id'];
-        $newMessage['sender_id'] = $newSender;
-
-        $newChat = ($request -> all())['chat_id'];
-        $newMessage['chat_id'] = $newChat;
-
-        $newContent = ($request -> all())['content'];
-        $newMessage['content'] = $newContent;
+        $newMessage['sender_id'] = $reqContent['sender_id'];
+        $newMessage['chat_id']   = $reqContent['chat_id'];
+        $newMessage['content']   = $reqContent['content'];
 
         $newMessage -> save();
 
-        return (true);
+        return (json_encode(true));
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Message  $message
-     * @return \Illuminate\Http\Response
+     * @return
      */
     public function show($id)
     {
         $message = Message::findOrFail($id);
-        return json_encode(['sender_id' => $message['sender_id'],
-                            'chat_id' => $message['chat_id'],
-                            'sent_at' => $message['sent_at'],
-                            'content' => $message['content']]);
+
+        return json_encode([
+            'sender_id' => $message['sender_id'],
+            'chat_id' => $message['chat_id'],
+            'sent_at' => $message['sent_at'],
+            'content' => $message['content']
+        ]);
     }
 
 
