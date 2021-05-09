@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Validator;
 use Illuminate\Support\Str;
+use Validator;
 
 class UserController extends Controller
 {
@@ -46,7 +46,10 @@ class UserController extends Controller
         ]);
 
         if ($validator -> fails())
-            return ($validator -> failed ());
+            return (json_encode ([
+                "success"   => false,
+                "validator" => $validator -> failed ()
+            ]));
 
         do {
             $token = Str::random (191);
@@ -64,7 +67,10 @@ class UserController extends Controller
 
         $retData = json_encode([
             "success" => true,
-            "user"    => $newUser
+            "user"    => [
+                "id"    => $newUser['id'],
+                "token" => $newUser['token']
+            ]
         ]);
 
         return ($retData);
