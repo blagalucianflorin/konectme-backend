@@ -125,7 +125,7 @@ class MessageController extends Controller
 
         return json_encode([
             "success" => true,
-            "message" => "None"
+            "message" => "Message was edited"
         ]);
     }
 
@@ -171,7 +171,7 @@ class MessageController extends Controller
 
         return json_encode([
             "success" => true,
-            "message" => "None"
+            "message" => "Message deleted"
         ]);
     }
 }

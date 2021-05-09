@@ -58,15 +58,6 @@ class ChatController extends Controller
                     ]));
         }
 
-        // foreach(json_decode($newUsers) as $user)
-        //     {
-        //        if(User::find($user) == null)
-        //             return json_encode([
-        //                 "success" => false, 
-        //                 "message" => "This user does not exist."
-        //             ]);
-        //     }
-
         $newChat['users'] = $newUsers;
 
         $newName = ($request -> all())['name'];
@@ -76,7 +67,7 @@ class ChatController extends Controller
 
         return json_encode([
             "success" => true,
-            "message" => "None"
+            "message" => "Chat was created"
         ]);
     }
 
@@ -88,7 +79,13 @@ class ChatController extends Controller
      */
     public function show($id)
     {
-        $chat = Chat::findOrFail($id);
+        $chat = Chat::find($id);
+
+        if($chat == null)
+            return json_encode([
+                "succes" => false,
+                "message" => "This chat does not exist"
+            ]);
 
         return json_encode([
             'users' => $chat['users'],
@@ -106,7 +103,7 @@ class ChatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $chat = Chat::findOrFail($id);
+        $chat = Chat::find($id);
 
         $newUsers = ($request -> all())['users'];
         foreach(json_decode($newUsers) as $id)
@@ -146,14 +143,14 @@ class ChatController extends Controller
             $chat['name'] = $newName;
         else return json_encode([
             "success" => false, 
-            "message" => "This user does not exist."
+            "message" => "User does not exist."
              ]);
        
         $chat -> save();
 
         return json_encode([
             "success" => true,
-             "message" => "None"
+             "message" => "Chat was edited"
         ]);
     }
 
