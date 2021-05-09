@@ -79,7 +79,14 @@ class UserController extends Controller
      */
     public function show (Request $request, $id): string
     {
-        $token       = $request -> bearerToken();
+        $token = $request -> bearerToken ();
+
+        if ($token == null)
+            return (json_encode ([
+                "success" => false,
+                "message" => "User is not logged in"
+            ]));
+
         $desiredUser = User::find ($id);
         $user        = DB::table ('users') -> where ('token', $token) -> first ();
 
@@ -118,7 +125,14 @@ class UserController extends Controller
      */
     public function update (Request $request, $id): string
     {
-        $token       = $request -> bearerToken();
+        $token = $request -> bearerToken ();
+
+        if ($token == null)
+            return (json_encode ([
+                "success" => false,
+                "message" => "User is not logged in"
+            ]));
+
         $desiredUser = User::find ($id);
         $user        = DB::table ('users') -> where ('token', $token) -> first ();
         $requestData = $request -> all ();
@@ -176,7 +190,14 @@ class UserController extends Controller
      */
     public function destroy (Request $request, $id): string
     {
-        $token       = $request -> bearerToken();
+        $token = $request -> bearerToken ();
+
+        if ($token == null)
+            return (json_encode ([
+                "success" => false,
+                "message" => "User is not logged in"
+            ]));
+
         $desiredUser = User::find ($id);
         $user        = DB::table ('users') -> where ('token', $token) -> first ();
         $requestData = $request -> all ();
