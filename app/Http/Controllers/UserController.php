@@ -4,32 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Validator;
-use Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Validator;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function index()
+    public function index ()
     {
         $users = User::all ();
 
-        return (json_encode ($users));
+        $retData = json_encode([
+            "success" => true,
+            "users"    => $users
+        ]);
+
+        return ($retData);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return
+     * @param Request $request
+     * @return string
      */
-    public function store(Request $request)
+    public function store (Request $request): string
     {
-        $data = $request->all ();
+        $data = $request -> all ();
 
         $validator = Validator::make ($data, [
             'first_name' => 'required|max:55',
@@ -40,11 +46,11 @@ class UserController extends Controller
         ]);
 
         if ($validator -> fails())
-            return (0);
+            return ($validator -> failed ());
 
         do {
             $token = Str::random (191);
-        } while (User::where("token", "=", $token)->first() instanceof User);
+        } while (User::where ("token", "=", $token) -> first () instanceof User);
 
         $newUser               = new User;
         $newUser['first_name'] = $data['first_name'];
@@ -53,36 +59,89 @@ class UserController extends Controller
         $newUser['email']      = $data['email'];
         $newUser['password']   = password_hash ($data['password'], PASSWORD_DEFAULT);
         $newUser['token']      = $token;
+
         $newUser -> save ();
 
-        return response([ 'user' => $newUser]);
+        $retData = json_encode([
+            "success" => true,
+            "user"    => $newUser
+        ]);
+
+        return ($retData);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param  $id
+     * @return string
      */
-    public function show($id)
+    public function show (Request $request, $id): string
     {
-        $user = User::findOrFail ($id);
+        $token       = $request -> bearerToken();
+        $desiredUser = User::find ($id);
+        $user        = DB::table ('users') -> where ('token', $token) -> first ();
 
-        return (json_encode ($user));
+        if ($user == null)
+            return (json_encode ([
+                "success" => false,
+                "message" => "Token doesn't exist"
+            ]));
+
+        if ($user -> token != $desiredUser -> token)
+            return (json_encode ([
+                "success" => false,
+                "message" => "Unauthorized access"
+            ]));
+
+        if ($desiredUser == null)
+            return (json_encode ([
+                "success" => false,
+                "message" => "User doesn't exist"
+            ]));
+
+        $retData = json_encode([
+           "success" => true,
+           "user"    => $desiredUser
+        ]);
+
+        return ($retData);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  Request $request
+     * @param  $id
+     * @return string
      */
-    public function update(Request $request, $id)
+    public function update (Request $request, $id): string
     {
-        $data = $request->all ();
+        $token       = $request -> bearerToken();
+        $desiredUser = User::find ($id);
+        $user        = DB::table ('users') -> where ('token', $token) -> first ();
+        $requestData = $request -> all ();
 
-        $validator = Validator::make ($data, [
+        if ($user == null)
+            return (json_encode ([
+                "success" => false,
+                "message" => "Token doesn't exist"
+            ]));
+
+        if ($user -> token != $desiredUser -> token)
+            return (json_encode ([
+                "success" => false,
+                "message" => "Unauthorized access"
+            ]));
+
+        if ($desiredUser == null)
+            return (json_encode ([
+                "success" => false,
+                "message" => "User doesn't exist"
+            ]));
+
+        $validator = Validator::make ($requestData, [
             'first_name' => 'required|max:55',
             'last_name'  => 'required|max:55',
             'username'   => 'required|max:55',
@@ -93,29 +152,58 @@ class UserController extends Controller
         if ($validator -> fails())
             return ($validator -> failed ());
 
-        $user               = User::findOrFail ($id);
-        $user['first_name'] = $data['first_name'];
-        $user['last_name']  = $data['last_name'];
-        $user['username']   = $data['username'];
+        $desiredUser['first_name'] = $requestData['first_name'];
+        $desiredUser['last_name']  = $requestData['last_name'];
+        $desiredUser['username']   = $requestData['username'];
         // $user['email']      = $data['email'];
-        $user['password']   = bcrypt ($data['password']);
-        $user -> save ();
+        $desiredUser['password']   = bcrypt ($requestData['password']);
 
-        return response([ 'user' => $user]);
+        $desiredUser -> save ();
+
+        $retData = json_encode([
+            "success" => true,
+            "user"    => $desiredUser
+        ]);
+
+        return response($retData);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  $id
+     * @return string
      */
-    public function destroy($id)
+    public function destroy (Request $request, $id): string
     {
-        $user = User::findOrFail($id);
+        $token       = $request -> bearerToken();
+        $desiredUser = User::find ($id);
+        $user        = DB::table ('users') -> where ('token', $token) -> first ();
+        $requestData = $request -> all ();
 
-        $user -> delete ();
+        if ($user == null)
+            return (json_encode ([
+                "success" => false,
+                "message" => "Token doesn't exist"
+            ]));
 
-        return (true);
+        if ($user -> token != $desiredUser -> token)
+            return (json_encode ([
+                "success" => false,
+                "message" => "Unauthorized access"
+            ]));
+
+        if ($desiredUser == null)
+            return (json_encode ([
+                "success" => false,
+                "message" => "User doesn't exist"
+            ]));
+
+        $desiredUser -> delete ();
+
+        return (json_encode ([
+            "success" => true,
+            "message" => "None"
+        ]));
     }
 }
