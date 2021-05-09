@@ -25,7 +25,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return
      */
     public function store(Request $request)
     {
@@ -40,7 +40,7 @@ class UserController extends Controller
         ]);
 
         if ($validator -> fails())
-            return ($validator -> failed ());
+            return (0);
 
         do {
             $token = Str::random (191);
