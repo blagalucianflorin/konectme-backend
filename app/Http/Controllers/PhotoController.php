@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Photo;
 
@@ -11,20 +14,25 @@ class PhotoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function index()
+    public function index ()
     {
         $photos = Photo::all ();
 
-        return (json_encode ($photos));
+        $retData = json_encode([
+            "success" => true,
+            "photos"  => $photos
+        ]);
+
+        return ($retData);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request $request
+     * @return string
      */
     public function store(Request $request)
     {
@@ -34,52 +42,91 @@ class PhotoController extends Controller
         $newPhoto['path'] = $newPath;
         $newPhoto -> save ();
 
-        return (true);
+        $retData = json_encode([
+            "success" => true,
+            "photo"  => $newPhoto
+        ]);
+
+        return ($retData);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function show($id)
+    public function show ($id)
     {
-        $photo = Photo::findOrFail($id);
+        $photo = Photo::find ($id);
 
-        return json_encode (['path' => $photo['path']]);
+        if ($photo == null)
+            return (json_encode([
+                "success" => false,
+                "message" => "Photo does not exist"
+            ]));
+
+        $retData = json_encode([
+            "success" => true,
+            "photo"  => $photo
+        ]);
+
+        return ($retData);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function update(Request $request, $id)
+    // Unused at the moment
+    public function update (Request $request, $id)
     {
-        $photo   = Photo::findOrFail($id);
+        $photo   = Photo::find ($id);
         $newPath = ($request -> all ())['path'];
+
+        if ($photo == null)
+            return (json_encode([
+                "success" => false,
+                "message" => "Photo does not exist"
+            ]));
 
         $photo['path'] = $newPath;
         $photo -> save ();
 
-        return (true);
+        $retData = json_encode([
+            "success" => true,
+            "photo"  => $photo
+        ]);
+
+        return ($retData);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function destroy($id)
+    public function destroy ($id)
     {
-        $photo = Photo::findOrFail($id);
+        $photo = Photo::find ($id);
+
+        if ($photo == null)
+            return (json_encode([
+                "success" => false,
+                "message" => "Photo does not exist"
+            ]));
 
         $photo -> delete ();
 
-        return (true);
+        $retData = json_encode([
+            "success" => true,
+            "message" => "None"
+        ]);
+
+        return ($retData);
     }
 }

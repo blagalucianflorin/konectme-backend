@@ -53,7 +53,7 @@ Route::post ('/photo', [PhotoController::class, 'store']);
 
 Route::get ('/photo/{id}', [PhotoController::class, 'show']);
 
-Route::patch ('/photo/{id}', [PhotoController::class, 'update']);
+//Route::patch ('/photo/{id}', [PhotoController::class, 'update']);
 
 Route::delete ('/photo/{id}', [PhotoController::class, 'destroy']);
 
