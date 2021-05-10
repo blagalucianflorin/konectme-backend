@@ -8,6 +8,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FriendController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,3 +71,10 @@ Route::delete ('/user/{id}', [UserController::class, 'destroy']);
 
 // Auth Routes
 Route::post ('/login', [AuthController::class, 'login']);
+
+// Friend routes
+Route::get ('/friend', [FriendController::class, 'show']);
+
+Route::post ('/friend', [FriendController::class, 'store']);
+
+Route::delete ('/friend', [FriendController::class, 'destroy']);
