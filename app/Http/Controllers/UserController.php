@@ -172,10 +172,10 @@ class UserController extends Controller
         if ($validator -> fails())
             return ($validator -> failed ());
 
-        $desiredUser['first_name'] = $requestData['first_name'];
-        $desiredUser['last_name']  = $requestData['last_name'];
-        $desiredUser['username']   = $requestData['username'];
-        // $user['email']      = $data['email'];
+//        $desiredUser['first_name'] = $requestData['first_name'];
+//        $desiredUser['last_name']  = $requestData['last_name'];
+//        $desiredUser['username']   = $requestData['username'];
+        $user['email']             = $requestData['email'];
         $desiredUser['password']   = bcrypt ($requestData['password']);
 
         $desiredUser -> save ();
