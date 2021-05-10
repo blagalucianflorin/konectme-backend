@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function login (Request $request)
     {
-        $data = $request->all ();
+        $data = $request -> all ();
 
         $validator = Validator::make ($data, [
             'username'   => 'required|max:55',
@@ -19,21 +19,31 @@ class AuthController extends Controller
         ]);
 
         if ($validator -> fails())
-            return ($validator -> failed ());
+            return (json_encode ([
+                'success' => false,
+                'message' => 'Wrong password or username',
+                'token'   => null
+            ]));
 
         $user = User::where ('username', '=', $data['username']) -> first ();
         if (!$user)
-        return (json_encode ([
-            'token' => null,
-            'error' => 'Wrong password or username'
-        ]));
+            return (json_encode ([
+                'success' => false,
+                'message' => 'Wrong password or username',
+                'token'   => null
+            ]));
 
         if (password_verify ($data['password'], $user['password'])) {
-            return (json_encode (['token' => $user['token']]));
+            return (json_encode ([
+                'success' => true,
+                'message' => "Successfully logged in",
+                'token'   => $user['token']
+            ]));
         } else {
             return (json_encode ([
-                'token' => null,
-                'error' => 'Wrong password or username'
+                'success' => false,
+                'message' => 'Wrong password or username',
+                'token'   => null
             ]));
         }
     }
