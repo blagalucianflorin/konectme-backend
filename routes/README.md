@@ -15,7 +15,8 @@
 }
 ```
 
- - Possible outputs:  
+ - Possible outputs:
+
 **SUCCESS**:
 ```json
 {
@@ -60,11 +61,20 @@
 {
     "sender_id": <sender_id>,
     "chat_d":  <chat_id>,
-    "content":   "<content>"
+    "content": <content>,
+    "type" : <type_of_content>
 }
 ```
+content :
+1. "the content of the message" (e.g : "good morning everyone")
+2. <photo_id>  (e.g : 2)
 
- - Possible outputs:
+type_of_content : 
+1. "text"
+2. "photo"
+
+   
+  - Possible outputs:
 
 **SUCCESS**:
 ```json
@@ -95,10 +105,17 @@
   "sender_id": <sender_id>,
   "chat_id": <chat_id>,
   "sent_at": "<date>",
-  "content": "<content>"
-  
+  "content": "<content>",
+  "type" : "<type_of_content"
 }
 ```
+content :
+1. "the content of the message" (e.g : "good morning everyone")
+2. <photo_id>  (e.g : 2)
+
+type_of_content : 
+1. "text"
+2. "photo"
 
 **FAILED**:
 ```json
@@ -113,9 +130,19 @@
  - Expected input: 
  ```json
  {
-     "content" : "<new content>"
+   "type" : "<type_of_content>",
+   "content" : "<new content>"
  }
  ```
+type_of_content : 
+1. "text"
+2. "photo"
+
+new content :
+1. "the content of the message" (e.g : "good morning everyone")
+2. <photo_id>  (e.g : 2)
+
+
 
 - Possible outputs:  
 

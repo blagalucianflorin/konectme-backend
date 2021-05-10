@@ -17,7 +17,7 @@ class CreateMessagesTable extends Migration
             $table->id();
             $table->foreignId('sender_id');
             $table->foreignId('chat_id');
-            $table->timestamp('sent_at') ->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('sent_at') -> default(DB::raw('CURRENT_TIMESTAMP'));
             $table->text('content');
         });
     }

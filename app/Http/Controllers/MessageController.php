@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\Chat;
 use App\Models\User;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -35,6 +36,23 @@ class MessageController extends Controller
         $verificationChat = Chat::findOrFail ($reqContent['chat_id']);
         $usersList        = json_decode ($verificationChat['users']);
 
+        if($reqContent['type'] == null || $reqContent['content'] == null)
+            return json_encode([
+                "succes" => false,
+                "message" => "No content"
+            ]);
+
+        if($reqContent['type'] == 'photo')
+                {
+                    $id = $reqContent['content'];
+                    $photo = Photo::find($id);
+                    if($photo == null)
+                        return json_encode([
+                            "succes" => false,
+                            "message" => "Invalid photo"
+                        ]);
+                }
+
         if (!in_array ($reqContent['sender_id'], $usersList))
             return json_encode([
                 "success" => false, 
@@ -44,12 +62,14 @@ class MessageController extends Controller
         $newMessage['sender_id'] = $reqContent['sender_id'];
         $newMessage['chat_id']   = $reqContent['chat_id'];
         $newMessage['content']   = $reqContent['content'];
+        $newMessage['type']   = $reqContent['type'];
+        
 
         $newMessage -> save();
 
         return json_encode([
             "success" => true,
-            "message" => "None"
+            "message" => "Message was sent"
         ]);
     }
 
@@ -73,7 +93,8 @@ class MessageController extends Controller
             'sender_id' => $message['sender_id'],
             'chat_id' => $message['chat_id'],
             'sent_at' => $message['sent_at'],
-            'content' => $message['content']
+            'content' => $message['content'],
+            'type' => $message['type']
         ]);
     }
 
@@ -96,6 +117,15 @@ class MessageController extends Controller
             ]);
 
         $newContent         = ($request -> all())['content'];
+        $newType            = ($request -> all())['type'];
+
+        #dd($message['content']g);
+
+        if($newType != $message['type'])
+            return json_encode([
+                "success" => false, 
+                "message" => "Type of message can't be modified"
+            ]);
 
         $token = $request -> bearerToken();
         if($token == null)
@@ -119,7 +149,7 @@ class MessageController extends Controller
                 "message" => "Unauthorized access"
             ]);
 
-        $message['content'] = $newContent;
+        $message['content'] = $newContent['content'];
 
         $message -> save();
 
