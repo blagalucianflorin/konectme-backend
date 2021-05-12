@@ -115,8 +115,11 @@ class UserController extends Controller
             ]));
 
         $retData = json_encode([
-           "success" => true,
-           "user"    => $desiredUser
+            "success" => true,
+            "user"    => [
+                "id"    => $desiredUser['id'],
+                "token" => $desiredUser['token']
+            ]
         ]);
 
         return ($retData);
@@ -162,9 +165,9 @@ class UserController extends Controller
             ]));
 
         $validator = Validator::make ($requestData, [
-            'first_name' => 'required|max:55',
-            'last_name'  => 'required|max:55',
-            'username'   => 'required|max:55',
+//            'first_name' => 'required|max:55',
+//            'last_name'  => 'required|max:55',
+//            'username'   => 'required|max:55',
             'email'      => 'email|required',
             'password'   => 'required|max:64'
         ]);
@@ -185,7 +188,7 @@ class UserController extends Controller
 
         $retData = json_encode([
             "success" => true,
-            "user"    => $desiredUser
+            "message" => "User data updated"
         ]);
 
         return response($retData);
@@ -233,7 +236,7 @@ class UserController extends Controller
 
         return (json_encode ([
             "success" => true,
-            "message" => "None"
+            "message" => "User deleted"
         ]));
     }
 }

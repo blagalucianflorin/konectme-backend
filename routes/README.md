@@ -1,6 +1,34 @@
 # API Documentation
 
-## User routes
+## USER ROUTES
+
+### GET /api/user/{id}
+- Expected input: Nothing
+
+- Possible outputs:  
+**SUCCESS**:
+```json
+{
+    "success": true,
+    "user": {
+        "id": "<user_id>",
+        "token": "<bearer_token>"
+    }
+}
+```
+
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message values:
+* User is not logged in
+* Token doesn't exist
+* Unauthorized access
+* User doesn't exist
 
 ### POST /api/user (Create user)
 
@@ -15,8 +43,7 @@
 }
 ```
 
- - Possible outputs:
-
+ - Possible outputs:  
 **SUCCESS**:
 ```json
 {
@@ -49,7 +76,82 @@
 *Constraints may vary.
 
 
-### PUT /api/user (Update user)
+### PUT /api/user/{id} (Update user)
+ - Expected input:
+```json
+{
+    "email": "<new/old_email>",
+    "password": "<new/old_password>"
+}
+```
+Note: Even if you only wish to change the password, sending the current email is necessary.
+
+ - Possible outputs:   
+**SUCCESS**:
+```json
+{
+    "success": true,
+    "message": "User data updated"
+}
+```
+
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message values:
+* User doesn't exist
+* Unauthorized access
+* Token doesn't exist
+* User is not logged in
+
+In case email or password is wrong/mising, another possible output is (may vary):
+```json
+{
+    "success": false,
+    "validator": {
+        "email": {
+            "Required": [
+                "required"
+            ]
+        },
+        "password": {
+            "Required": [
+                "required"
+            ]
+        }
+    }
+}
+```
+
+### DELETE /api/user/{id} (Delete user)
+- Expected input: Nothing
+
+- Possible outputs:
+**SUCCESS**:   
+```json
+{
+    "success": true,
+    "message": "User deleted"
+}
+```
+
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message values:
+* User doesn't exist
+* Unauthorized access
+* Token doesn't exist
+* User is not logged in
+
 
 
 ## MESSAGE ROUTES
@@ -257,7 +359,7 @@ Example user_id list : [1,2,3]
  - Expected input: 
  ```json
  {
-     "content" : "<new content>"
+     "content": "<new content>"
  }
  ```
 
@@ -266,8 +368,8 @@ Example user_id list : [1,2,3]
 **SUCCESS**:
 ```json
 {
-  "success": true,
-  "chat_id": "Chat was edited"
+    "success": true,
+    "chat_id": "Chat was edited"
 }
 ```
 
@@ -283,3 +385,103 @@ Example user_id list : [1,2,3]
 Error_message:
 1. Token does not exist
 2. User does not exist
+
+
+## FRIENDS ROUTES
+
+### GET /api/friend (See if users are friends)
+ - Expected input:
+```json
+{
+    "friend_one": "<friend_one_id>",
+    "friend_two": "<friend_two_id>"
+}
+```
+Note: friend_one_id has to be the id of the user sending the request
+
+ - Possible outputs:   
+**SUCCESS**:
+```json
+{
+    "success": true,
+    "message": "Users are/are not friends"
+}
+```
+Notice that the message indicates whether the users are friends or not, not the success field.
+
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message possible values:
+* Unauthorized access
+* Invalid token
+* User does not exist
+
+
+### POST /api/friend (Make users friends)
+- Expected input:
+```json
+{
+    "friend_one": "<friend_one_id>",
+    "friend_two": "<friend_two_id>"
+}
+```
+Note: friend_one_id has to be the id of the user sending the request
+
+- Possible outputs:   
+**SUCCESS**:   
+```json
+{
+    "success": true,
+    "message": "Users are now friends"
+}
+```
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message possible values:
+* Unauthorized access
+* User does not exist
+* Invalid token
+* Unauthorized access
+* Users are already friends
+
+
+### DELETE /api/friend (Delete friendship relation)
+- Expected input:
+```json
+{
+    "friend_one": "<friend_one_id>",
+    "friend_two": "<friend_two_id>"
+}
+```
+Note: friend_one_id has to be the id of the user sending the request
+
+- Possible outputs:   
+**SUCCESS**:
+```json
+{
+    "success": true,
+    "message": "Users aren't friends anymore"
+}
+```
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message possible values:
+* Users aren't friends
+* Invalid token
+* User does not exist
+* Unauthorized access
