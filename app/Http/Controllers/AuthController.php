@@ -37,7 +37,7 @@ class AuthController extends Controller
             return (json_encode ([
                 'success' => true,
                 'message' => "Successfully logged in",
-                'token'   => $user['token']
+                'user'   => $user
             ]));
         } else {
             return (json_encode ([
