@@ -14,7 +14,7 @@ class AddExpireToMessagesTable extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->timestamp('expiry_time');
+            $table->timestamp('expiry_time')->default (null);
         });
     }
 
