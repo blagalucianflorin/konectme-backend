@@ -183,12 +183,15 @@ class UserController extends Controller
 
         $desiredUser -> save ();
 
-        $retData = json_encode([
+//        $retData = json_encode([
+//            "success" => true,
+//            "message" => "User data updated"
+//        ]);
+
+        return json_encode([
             "success" => true,
             "message" => "User data updated"
         ]);
-
-        return response($retData);
     }
 
     /**
