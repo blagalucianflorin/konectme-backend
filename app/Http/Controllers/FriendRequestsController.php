@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Friend;
 use App\Models\User;
+use App\Models\Chat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -131,6 +132,13 @@ class FriendRequestsController extends Controller
                 "success" => false,
                 "message" => "Unauthorized access"
             ]));
+
+        
+
+        $newChat = new Chat;
+        $newChat->users = json_encode(array($relationship -> friend_one_id, $relationship -> friend_two_id));
+        $newChat->name = "Default";
+        $newChat->save();
 
         $relationship -> accepted = true;
         $relationship -> save ();
