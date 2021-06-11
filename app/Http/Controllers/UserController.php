@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Chat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -72,6 +73,11 @@ class UserController extends Controller
                 "token" => $newUser['token']
             ]
         ]);
+
+        $newChat = new Chat;
+        $newChat['users'] = json_encode (array ($newUser['id']));
+        $newChat['name'] = "Default";
+        $newChat -> save ();
 
         return ($retData);
     }
