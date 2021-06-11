@@ -64,7 +64,20 @@ class MessageController extends Controller
         $newMessage['content']   = $reqContent['content'];
         $newMessage['type']   = $reqContent['type'];
 
-
+        // aici am expiry_time
+        if ($reqContent['expiry_time'] != '0')
+        {
+            $newTime = Date("Y-m-d H:i:s", strtotime(($reqContent['expiry_time']+180)." minutes", strtotime(Date("Y-m-d H:i:s"))));
+            //$newTime = $newMessage['sent_at']->addMinutes($reqContent['expiry_time']);
+            $newMessage['expiry_time'] = $newTime;
+        }    
+        else 
+        {
+            $newTime = Date("Y-m-d H:i:s", strtotime("999999999 minutes", strtotime( $newMessage['sent_at'])));
+            //$newTime = $newMessage['sent_at']->addMinutes($reqContent['expiry_time']);
+            $newMessage['expiry_time'] = $newTime;
+        }    
+     
         $newMessage -> save();
 
         return json_encode([

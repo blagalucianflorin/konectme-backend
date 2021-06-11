@@ -106,7 +106,7 @@ class ChatController extends Controller
         foreach(json_decode ($chatUsers) as $userId)
         {
             $token = $request -> bearerToken();
-            $desiredUser = User::find ($id);
+            $desiredUser = User::find ($userId);
             $user = DB::table ('users') -> where ('token', $token) -> first();
 
             if($user == null)

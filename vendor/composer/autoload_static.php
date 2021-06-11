@@ -522,6 +522,7 @@ class ComposerStaticInit7a75ab4b0d210be1c9a66ea5b3de2312
         'App\\Http\\Controllers\\ChatController' => __DIR__ . '/../..' . '/app/Http/Controllers/ChatController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\FriendController' => __DIR__ . '/../..' . '/app/Http/Controllers/FriendController.php',
+        'App\\Http\\Controllers\\FriendRequestsController' => __DIR__ . '/../..' . '/app/Http/Controllers/FriendRequestsController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\MessageController' => __DIR__ . '/../..' . '/app/Http/Controllers/MessageController.php',
         'App\\Http\\Controllers\\PhotoController' => __DIR__ . '/../..' . '/app/Http/Controllers/PhotoController.php',
