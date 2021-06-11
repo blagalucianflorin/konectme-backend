@@ -116,10 +116,7 @@ class UserController extends Controller
 
         $retData = json_encode([
             "success" => true,
-            "user"    => [
-                "id"    => $desiredUser['id'],
-                "token" => $desiredUser['token']
-            ]
+            "user"    => $desiredUser
         ]);
 
         return ($retData);
@@ -181,8 +178,8 @@ class UserController extends Controller
 //        $desiredUser['first_name'] = $requestData['first_name'];
 //        $desiredUser['last_name']  = $requestData['last_name'];
 //        $desiredUser['username']   = $requestData['username'];
-        $user['email']           = $requestData['email'];
-        $desiredUser['password'] = bcrypt ($requestData['password']);
+        $desiredUser -> email    = $requestData['email'];
+        $desiredUser -> password = bcrypt ($requestData['password']);
 
         $desiredUser -> save ();
 
