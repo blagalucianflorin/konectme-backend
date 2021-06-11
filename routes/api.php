@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\FriendRequestsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,3 +85,10 @@ Route::delete ('/friend', [FriendController::class, 'destroy']);
 Route::get ('/status/{id}', [StatusController::class, 'show']);
 
 Route::patch ('/status/{id}', [StatusController::class, 'update']);
+
+// Friend requests routes
+Route::post ('/friendrequests', [FriendRequestsController::class, 'store']);
+
+Route::get ('/friendrequests/{id}', [FriendRequestsController::class, 'show']);
+
+Route::patch ('/friendrequests/{id}', [FriendRequestsController::class, 'update']);

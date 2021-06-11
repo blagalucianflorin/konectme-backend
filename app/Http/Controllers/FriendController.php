@@ -136,7 +136,7 @@ class FriendController extends Controller
 
         return (json_encode ([
             "success" => true,
-            "message" => "Users are now friends"
+            "message" => "Friend request sent"
         ]));
     }
 
