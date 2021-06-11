@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +37,7 @@ class ChatController extends Controller
         foreach(json_decode($newUsers) as $id)
         {
             $token = $request -> bearerToken();
-            $desiredUser = User:: find ($id); 
+            $desiredUser = User::find ($id);
             $user = DB::table ('users') -> where ('token', $token) -> first();
 
             if($user == null)
@@ -74,10 +75,10 @@ class ChatController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\Chat  $id
      * @return string
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $chat = Chat::find($id);
 
@@ -87,9 +88,55 @@ class ChatController extends Controller
                 "message" => "This chat does not exist"
             ]);
 
+        $messages = DB::table ('messages') -> where ('chat_id', $id) -> get ();
+
+        $cleanMessages = array();
+
+        foreach ($messages as $message)
+        {
+            array_push ($cleanMessages, $message);
+        }
+
+//        dd (json_encode($cleanMessages));
+
+        // Check request is performed by a user in the chat
+        $chatUsers = DB::table ('chats') -> where ('id', $id) -> first() -> users;
+//        dd ($chatUsers);
+        $found = false;
+        foreach(json_decode ($chatUsers) as $userId)
+        {
+            $token = $request -> bearerToken();
+            $desiredUser = User::find ($id);
+            $user = DB::table ('users') -> where ('token', $token) -> first();
+
+            if($user == null)
+                return (json_encode([
+                    "succes" => false,
+                    "message" => "Token does not exist"
+                ]));
+
+            if($desiredUser == null)
+                return (json_encode([
+                    "succes" => false,
+                    "message" => "User does not exist"
+                ]));
+
+            if($user -> id == $userId)
+            {
+                $found = true;
+                break;
+            }
+        }
+        if ($found == false)
+            return (json_encode([
+                "succes" => false,
+                "message" => "Unauthorized access"
+            ]));
+
         return json_encode([
             'users' => $chat['users'],
-            'name' => $chat['name']
+            'name' => $chat['name'],
+            'messages' => $cleanMessages
         ]);
     }
 
@@ -109,7 +156,7 @@ class ChatController extends Controller
         foreach(json_decode($newUsers) as $id)
         {
             $token = $request -> bearerToken();
-            $desiredUser = User:: find ($id); 
+            $desiredUser = User::find ($id);
             $user = DB::table ('users') -> where ('token', $token) -> first();
 
             if($user == null)
@@ -136,16 +183,16 @@ class ChatController extends Controller
         $chat -> save();
 
         $newName = ($request -> all())['name'];
-       
+
         //dd(json_decode($newUsers));
 
         if(count(json_decode($newUsers)) >= 3)
             $chat['name'] = $newName;
         else return json_encode([
-            "success" => false, 
+            "success" => false,
             "message" => "User does not exist."
              ]);
-       
+
         $chat -> save();
 
         return json_encode([
@@ -168,7 +215,7 @@ class ChatController extends Controller
         foreach(json_decode($users) as $id)
         {
             $token = $request -> bearerToken();
-            $desiredUser = User:: find ($id); 
+            $desiredUser = User:: find ($id);
             $user = DB::table ('users') -> where ('token', $token) -> first();
 
             if($user == null)
@@ -188,7 +235,7 @@ class ChatController extends Controller
 
             $chat -> save();
         }
-       
+
         return json_encode([
             "success" => true,
             "message" => "None"

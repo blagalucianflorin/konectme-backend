@@ -9,6 +9,7 @@ use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FriendController;
+use App\Http\Controllers\StatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,3 +79,8 @@ Route::get ('/friend', [FriendController::class, 'show']);
 Route::post ('/friend', [FriendController::class, 'store']);
 
 Route::delete ('/friend', [FriendController::class, 'destroy']);
+
+// Status routes
+Route::get ('/status/{id}', [StatusController::class, 'show']);
+
+Route::patch ('/status/{id}', [StatusController::class, 'update']);
