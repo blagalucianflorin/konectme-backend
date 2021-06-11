@@ -27,7 +27,7 @@ class MessageController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return string 
+     * @return string
      */
     public function store(Request $request)
     {
@@ -55,7 +55,7 @@ class MessageController extends Controller
 
         if (!in_array ($reqContent['sender_id'], $usersList))
             return json_encode([
-                "success" => false, 
+                "success" => false,
                 "message" => "This user is not in chat."
             ]);
 
@@ -63,7 +63,7 @@ class MessageController extends Controller
         $newMessage['chat_id']   = $reqContent['chat_id'];
         $newMessage['content']   = $reqContent['content'];
         $newMessage['type']   = $reqContent['type'];
-        
+
 
         $newMessage -> save();
 
@@ -85,7 +85,7 @@ class MessageController extends Controller
 
         if ($message == null)
             return json_encode([
-                "success" => false, 
+                "success" => false,
                 "message" => "This message does not exist."
             ]);
 
@@ -112,18 +112,17 @@ class MessageController extends Controller
 
         if ($message == null)
             return json_encode([
-                "success" => false, 
+                "success" => false,
                 "message" => "This message does not exist."
             ]);
 
         $newContent         = ($request -> all())['content'];
         $newType            = ($request -> all())['type'];
-
-        #dd($message['content']g);
+        
 
         if($newType != $message['type'])
             return json_encode([
-                "success" => false, 
+                "success" => false,
                 "message" => "Type of message can't be modified"
             ]);
 
@@ -134,7 +133,7 @@ class MessageController extends Controller
                     "message" => "User is not authenticated"
                 ]);
         $user = DB::table('users') -> where ('token', $token)-> first();
-        
+
         if ($user == null)
         {
             return (json_encode([
@@ -171,7 +170,7 @@ class MessageController extends Controller
 
         if ($message == null)
             return json_encode([
-                "success" => false, 
+                "success" => false,
                 "message" => "This message does not exist."
             ]);
 
