@@ -133,8 +133,6 @@ class FriendRequestsController extends Controller
                 "message" => "Unauthorized access"
             ]));
 
-        
-
         $newChat = new Chat;
         $newChat->users = json_encode(array($relationship -> friend_one_id, $relationship -> friend_two_id));
         $newChat->name = "Default";

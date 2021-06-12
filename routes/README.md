@@ -164,8 +164,9 @@ error_message values:
     "sender_id": <sender_id>,
     "chat_d":  <chat_id>,
     "content": <content>,
-    "type" : <type_of_content>
-}
+    "type" : <type_of_content>,
+    "expiry_time" : <minutes>
+    
 ```
 content :
 1. "the content of the message" (e.g : "good morning everyone")
@@ -208,7 +209,8 @@ type_of_content :
   "chat_id": <chat_id>,
   "sent_at": "<date>",
   "content": "<content>",
-  "type" : "<type_of_content"
+  "type" : "<type_of_content",
+  "expiry_time" : "<datatime_of_expiration>"
 }
 ```
 content :
@@ -342,6 +344,18 @@ Example user_id list : [1,2,3]
 {
   "users": "[user_id list]",
   "name": "<name>",
+  "messages" : [
+        {
+            "id": <id>,
+            "sender_id": <sender_id>,
+            "chat_id": <chat_id>,
+            "sent_at": "<date>",
+            "content": "<content>",
+            "type" : "<type_of_content",
+            "expiry_time" : "<datatime_of_expiration>"
+        },
+        ...
+  ]
 }
 ```
 Example user_id list : [1,2,3]
@@ -350,9 +364,12 @@ Example user_id list : [1,2,3]
 ```json
 {
     "success": false,
-    "message" : "This chat does not exist."
+    "message" : "<error_message>"
 }
 ```
+error_message possible values:
+* This chat does not exist.
+* Unauthorized access
 
 ### PUT /api/chat/{id} (Edit chat)
 
@@ -485,3 +502,158 @@ error_message possible values:
 * Invalid token
 * User does not exist
 * Unauthorized access
+
+
+## STATUS ROUTES
+
+### GET /api/status/{id} (Show the status of an user)
+ - Expected input:
+    Nothing
+
+ - Possible outputs:   
+**SUCCESS**:
+```json
+{
+    "success": true,
+    "message": "Status retrieved",
+    "status": <status>
+}
+```
+status : offline, online
+
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "User doesn't exist"
+}
+```
+
+### PATCH /api/status/{id} (Update the status of an user)
+- Expected input:
+```json
+{
+    "status": <status>
+}
+```
+status : offline, online
+
+ - Possible outputs:   
+**SUCCESS**:
+```json
+{
+    "success": true,
+    "message": "Status set"
+}
+```
+
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message possible values:
+* Token doesn't exist
+* User is not logged in
+* Unauthorized access
+
+
+## FRIEND REQUESTS ROUTES
+
+### GET /api/friendrequests/{id} (See the friend requests of the user with id {id}. User with id in route is the user who receive friend requests)
+ - Expected input:
+    Nothing
+
+- Possible outputs:   
+**SUCCESS**:
+```json
+{
+    "success": true,
+    "message" : "List provided",
+    "friend_requests" : [
+        {
+            "friend_one_id": <id_of_the_user_who_sent_friendrequest>,
+            "friend_two_id": <id_of_the_user_who_receive_friendrequest>,
+            "id": <id_of_the_friendrequest>,
+            "accepted": <message>
+        },
+        ...
+    ]
+}
+```
+message: 0 if is not accepted, 1 if is accepted
+
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message possible values:
+* Unauthorized access
+* Invalid token
+
+
+### POST /api/friendrequests (Send a friend request)
+- Expected input:
+```json
+{
+    "friend_one": "<friend_one_id>",
+    "friend_two": "<friend_two_id>"
+}
+```
+Note: friend_one_id has to be the id of the user sending the request
+
+- Possible outputs:   
+**SUCCESS**:   
+```json
+{
+    "success": true,
+    "message": "Friend requst sent"
+}
+```
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message possible values:
+* User does not exist
+* Invalid token
+* Unauthorized access
+* Users are already friends
+
+### PATCH /api/friendrequests/{id} (Accept a friend request of the user with id {id})
+- Expected input:
+```json
+{
+    "friend_one": "<friend_one_id>",
+    "friend_two": "<friend_two_id>"
+}
+```
+Note: friend_two_id has to be the id of the user accepting the request
+
+- Possible outputs:   
+**SUCCESS**:   
+```json
+{
+    "success": true,
+    "message": "Users are now friends"
+}
+```
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "<error_message>"
+}
+```
+error_message possible values:
+* Unauthorized access
+* Friend request not sen
+* Invalid token
