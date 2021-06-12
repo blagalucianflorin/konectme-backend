@@ -11,14 +11,15 @@ class CreateMessagesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::create('messages', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('sender_id');
-            $table->foreignId('chat_id');
-            $table->timestamp('sent_at') -> default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->text('content');
+        Schema::create ('messages', function (Blueprint $table)
+        {
+            $table -> id ();
+            $table -> foreignId ('sender_id');
+            $table -> foreignId ('chat_id');
+            $table -> timestamp ('sent_at') -> default (DB::raw ('CURRENT_TIMESTAMP'));
+            $table -> text ('content');
         });
     }
 
@@ -27,8 +28,8 @@ class CreateMessagesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists ('messages');
     }
 }

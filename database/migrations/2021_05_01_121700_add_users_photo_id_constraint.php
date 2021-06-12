@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class AddUsersPhotoIdConstraint extends Migration
@@ -11,7 +10,7 @@ class AddUsersPhotoIdConstraint extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
         Schema::table ('users', function ($table)
         {
@@ -24,7 +23,7 @@ class AddUsersPhotoIdConstraint extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
         //
     }

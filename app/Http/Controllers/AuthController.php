@@ -9,16 +9,23 @@ use Str;
 
 class AuthController extends Controller
 {
+    /**
+     * Check request data against user entry in data base.
+     *
+     * Returns success and whole user if data matches and failure and error message otherwise
+     *
+     * @return string
+     */
     public function login (Request $request)
     {
         $data = $request -> all ();
 
         $validator = Validator::make ($data, [
-            'username'   => 'required|max:55',
-            'password'   => 'required|max:64'
+            'username' => 'required|max:55',
+            'password' => 'required|max:64'
         ]);
 
-        if ($validator -> fails())
+        if ($validator -> fails ())
             return (json_encode ([
                 'success' => false,
                 'message' => 'Wrong password or username',
@@ -33,13 +40,16 @@ class AuthController extends Controller
                 'token'   => null
             ]));
 
-        if (password_verify ($data['password'], $user['password'])) {
+        if (password_verify ($data['password'], $user['password']))
+        {
             return (json_encode ([
                 'success' => true,
                 'message' => "Successfully logged in",
                 'user'   => $user
             ]));
-        } else {
+        }
+        else
+        {
             return (json_encode ([
                 'success' => false,
                 'message' => 'Wrong password or username',

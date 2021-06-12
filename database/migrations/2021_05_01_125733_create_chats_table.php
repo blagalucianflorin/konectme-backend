@@ -11,12 +11,13 @@ class CreateChatsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::create('chats', function (Blueprint $table) {
-            $table -> id();
-            $table -> text('users');
-            $table -> string('name', 64);
+        Schema::create('chats', function (Blueprint $table)
+        {
+            $table -> id ();
+            $table -> text ('users');
+            $table -> string ('name', 64);
         });
     }
 
@@ -25,8 +26,8 @@ class CreateChatsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        Schema::dropIfExists('chats');
+        Schema::dropIfExists ('chats');
     }
 }
