@@ -11,6 +11,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\FriendRequestsController;
+use App\Http\Controllers\FriendsListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,3 +91,6 @@ Route::post ('/friendrequests', [FriendRequestsController::class, 'store']);
 Route::get ('/friendrequests/{id}', [FriendRequestsController::class, 'show']);
 
 Route::patch ('/friendrequests/{id}', [FriendRequestsController::class, 'update']);
+
+// Friend list routes
+Route::get ('/friendslist/{id}', [FriendsListController::class, 'show']);
