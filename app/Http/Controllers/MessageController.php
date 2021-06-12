@@ -75,7 +75,7 @@ class MessageController extends Controller
         }    
         else 
         {
-            $newTime = Date ("Y-m-d H:i:s", strtotime ("999999999 minutes", strtotime ($message['sent_at'])));
+            $newTime = Date ("Y-m-d H:i:s", strtotime ("525600 minutes", strtotime ($message['sent_at'])));
             $message['expiry_time'] = $newTime;
         }    
      
