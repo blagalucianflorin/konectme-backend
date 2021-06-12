@@ -11,10 +11,11 @@ class AddExpireToMessagesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::table('messages', function (Blueprint $table) {
-            $table->timestamp('expiry_time')->default (DB::raw ('CURRENT_TIMESTAMP'));
+        Schema::table ('messages', function (Blueprint $table) 
+        {
+            $table -> timestamp ('expiry_time') -> default (DB::raw ('CURRENT_TIMESTAMP'));
         });
     }
 
@@ -23,9 +24,10 @@ class AddExpireToMessagesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        Schema::table('messages', function (Blueprint $table) {
+        Schema::table ('messages', function (Blueprint $table) 
+        {
             $table -> dropColumn ('expiry_time');
         });
     }

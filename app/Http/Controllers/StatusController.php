@@ -8,10 +8,16 @@ use Illuminate\Support\Facades\DB;
 
 class StatusController extends Controller
 {
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return string
+     */
     public function show (Request $request, $id)
     {
         $desiredUser = User::find ($id);
-
         if ($desiredUser == null)
             return (json_encode ([
                 "success" => false,
@@ -21,14 +27,20 @@ class StatusController extends Controller
         return json_encode ([
             "success" => true,
             "message" => "Status retrieved",
-            "status" => $desiredUser -> status
+            "status"  => $desiredUser -> status
         ]);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return string
+     */
     public function update (Request $request, $id)
     {
         $token = $request -> bearerToken ();
-
         if ($token == null)
             return (json_encode ([
                 "success" => false,
@@ -54,9 +66,9 @@ class StatusController extends Controller
         $desiredUser -> status = $requestData['status'];
         $desiredUser -> save ();
 
-        return json_encode ([
+        return (json_encode ([
             "success" => true,
             "message" => "Status set"
-        ]);
+        ]));
     }
 }

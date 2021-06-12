@@ -16,7 +16,7 @@ class UserController extends Controller
      *
      * @return string
      */
-    public function index (): string
+    public function index ()
     {
         $users = User::all ();
 
@@ -34,7 +34,7 @@ class UserController extends Controller
      * @param Request $request
      * @return string
      */
-    public function store (Request $request): string
+    public function store (Request $request)
     {
         $data = $request -> all ();
 
@@ -46,7 +46,7 @@ class UserController extends Controller
             'password'   => 'required|max:64'
         ]);
 
-        if ($validator -> fails())
+        if ($validator -> fails ())
             return (json_encode ([
                 "success"   => false,
                 "validator" => $validator -> failed ()
@@ -74,9 +74,9 @@ class UserController extends Controller
             ]
         ]);
 
-        $newChat = new Chat;
+        $newChat          = new Chat;
         $newChat['users'] = json_encode (array ($newUser['id']));
-        $newChat['name'] = "Default";
+        $newChat['name']  = "Default";
         $newChat -> save ();
 
         return ($retData);
@@ -89,7 +89,7 @@ class UserController extends Controller
      * @param  $id
      * @return string
      */
-    public function show (Request $request, $id): string
+    public function show (Request $request, $id)
     {
         $token = $request -> bearerToken ();
 
@@ -135,10 +135,9 @@ class UserController extends Controller
      * @param  $id
      * @return string
      */
-    public function update (Request $request, $id): string
+    public function update (Request $request, $id)
     {
         $token = $request -> bearerToken ();
-
         if ($token == null)
             return (json_encode ([
                 "success" => false,
@@ -168,36 +167,24 @@ class UserController extends Controller
             ]));
 
         $validator = Validator::make ($requestData, [
-//            'first_name' => 'required|max:55',
-//            'last_name'  => 'required|max:55',
-//            'username'   => 'required|max:55',
             'email'      => 'email|required',
             'password'   => 'required|max:64'
         ]);
 
-        if ($validator -> fails())
+        if ($validator -> fails ())
             return (json_encode ([
                 "success"   => false,
                 "validator" => $validator -> failed ()
             ]));
 
-//        $desiredUser['first_name'] = $requestData['first_name'];
-//        $desiredUser['last_name']  = $requestData['last_name'];
-//        $desiredUser['username']   = $requestData['username'];
         $desiredUser -> email    = $requestData['email'];
         $desiredUser -> password = bcrypt ($requestData['password']);
-
         $desiredUser -> save ();
 
-//        $retData = json_encode([
-//            "success" => true,
-//            "message" => "User data updated"
-//        ]);
-
-        return json_encode([
+        return (json_encode([
             "success" => true,
             "message" => "User data updated"
-        ]);
+        ]));
     }
 
     /**
@@ -206,10 +193,9 @@ class UserController extends Controller
      * @param  $id
      * @return string
      */
-    public function destroy (Request $request, $id): string
+    public function destroy (Request $request, $id)
     {
         $token = $request -> bearerToken ();
-
         if ($token == null)
             return (json_encode ([
                 "success" => false,

@@ -11,9 +11,9 @@ class AddMessagesChatIdConstraint extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::table ('messages', function($table)
+        Schema::table ('messages', function ($table)
         {
             $table -> foreign ('chat_id') -> references ('id') -> on ('chats');
         });

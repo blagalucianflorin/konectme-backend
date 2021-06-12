@@ -11,9 +11,9 @@ class AddMessagesUserIdConstraint extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::table ('messages', function($table)
+        Schema::table ('messages', function ($table)
         {
             $table -> foreign ('sender_id') -> references ('id') -> on ('users');
         });
@@ -24,7 +24,7 @@ class AddMessagesUserIdConstraint extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
         //
     }

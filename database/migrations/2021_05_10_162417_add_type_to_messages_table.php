@@ -11,10 +11,11 @@ class AddTypeToMessagesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::table('messages', function (Blueprint $table) {
-            $table -> string('type');
+        Schema::table ('messages', function (Blueprint $table) 
+        {
+            $table -> string ('type');
         });
     }
 
@@ -23,9 +24,10 @@ class AddTypeToMessagesTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        Schema::table('messages', function (Blueprint $table) {
+        Schema::table('messages', function (Blueprint $table) 
+        {
             //
         });
     }

@@ -11,9 +11,10 @@ class CreateFriendsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::create('friends', function (Blueprint $table) {
+        Schema::create ('friends', function (Blueprint $table)  
+        {
             $table -> foreignId ("friend_one_id");
             $table -> foreignId ("friend_two_id");
 
@@ -27,8 +28,8 @@ class CreateFriendsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        Schema::dropIfExists('friends');
+        Schema::dropIfExists ('friends');
     }
 }

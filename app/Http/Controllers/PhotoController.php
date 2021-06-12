@@ -34,17 +34,17 @@ class PhotoController extends Controller
      * @param  Request $request
      * @return string
      */
-    public function store(Request $request)
+    public function store (Request $request)
     {
-        $newPhoto = new Photo;
-
         $newPath = ($request -> all ())['path'];
+        
+        $newPhoto         = new Photo;
         $newPhoto['path'] = $newPath;
         $newPhoto -> save ();
 
         $retData = json_encode([
             "success" => true,
-            "photo"  => $newPhoto
+            "photo"   => $newPhoto
         ]);
 
         return ($retData);
@@ -59,7 +59,6 @@ class PhotoController extends Controller
     public function show ($id)
     {
         $photo = Photo::find ($id);
-
         if ($photo == null)
             return (json_encode([
                 "success" => false,
@@ -68,7 +67,7 @@ class PhotoController extends Controller
 
         $retData = json_encode([
             "success" => true,
-            "photo"  => $photo
+            "photo"   => $photo
         ]);
 
         return ($retData);

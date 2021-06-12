@@ -11,10 +11,11 @@ class AddAcceptedToFriendsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::table('friends', function (Blueprint $table) {
-            $table -> boolean ('accepted') ->default (false);
+        Schema::table ('friends', function (Blueprint $table) 
+        {
+            $table -> boolean ('accepted') -> default (false);
         });
     }
 
@@ -23,9 +24,10 @@ class AddAcceptedToFriendsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        Schema::table('friends', function (Blueprint $table) {
+        Schema::table ('friends', function (Blueprint $table) 
+        {
             $table -> dropColumn ('accepted');
         });
     }

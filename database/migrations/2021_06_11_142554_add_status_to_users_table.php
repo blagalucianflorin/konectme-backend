@@ -11,10 +11,11 @@ class AddStatusToUsersTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table -> string ('status') ->default ('offline');
+        Schema::table ('users', function (Blueprint $table) 
+        {
+            $table -> string ('status') -> default ('offline');
         });
     }
 
@@ -23,9 +24,10 @@ class AddStatusToUsersTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table ('users', function (Blueprint $table) 
+        {
             $table -> dropColumn ('status');
         });
     }
