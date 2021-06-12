@@ -628,12 +628,11 @@ error_message possible values:
 * Unauthorized access
 * Users are already friends
 
-### PATCH /api/friendrequests/{id} (Accept a friend request of the user with id {id})
+### PATCH /api/friendrequests/{id} (Accept or refuse a friend request of the Friend relationship with id {id})
 - Expected input:
 ```json
 {
-    "friend_one": "<friend_one_id>",
-    "friend_two": "<friend_two_id>"
+    "accepted": true / false
 }
 ```
 Note: friend_two_id has to be the id of the user accepting the request
@@ -643,7 +642,7 @@ Note: friend_two_id has to be the id of the user accepting the request
 ```json
 {
     "success": true,
-    "message": "Users are now friends"
+    "message": "Users are now friends" / "Friend request denied"
 }
 ```
 **FAILED**:

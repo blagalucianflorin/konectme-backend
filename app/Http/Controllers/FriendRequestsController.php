@@ -118,7 +118,8 @@ class FriendRequestsController extends Controller
      */
     public function update (Request $request, $id): string
     {
-        $token = $request -> bearerToken ();
+        $token   = $request -> bearerToken ();
+        $reqData = $request -> all ();
 
         if ($token == null)
             return (json_encode ([
@@ -146,17 +147,31 @@ class FriendRequestsController extends Controller
                 "message" => "Unauthorized access"
             ]));
 
-        $newChat          = new Chat;
-        $newChat -> users = json_encode (array($relationship -> friend_one_id, $relationship -> friend_two_id));
-        $newChat -> name  = "Default";
-        $newChat -> save ();
+        if ($reqData['accepted'] == true)
+        {
+            $newChat          = new Chat;
+            $newChat -> users = json_encode(array($relationship->friend_one_id, $relationship->friend_two_id));
+            $newChat -> name  = "Default";
+            $newChat -> save ();
 
-        $relationship -> accepted = true;
-        $relationship -> save ();
+            $relationship -> accepted = true;
+            $relationship -> save ();
 
-        return (json_encode ([
-            "success" => true,
-            "message" => "Users are now friends"
-        ]));
+            return (json_encode ([
+                "success" => true,
+                "message" => "Users are now friends"
+            ]));
+        }
+        else
+        {
+            $relationship -> delete ();
+
+            return (json_encode ([
+                "success" => true,
+                "message" => "Friend request denied"
+            ]));
+        }
+
+
     }
 }
