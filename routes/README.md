@@ -657,3 +657,36 @@ error_message possible values:
 * Unauthorized access
 * Friend request not sen
 * Invalid token
+
+## FRIENDS LIST ROUTES
+
+### GET /api/friendslist/{id} (Return a list of all users friends of the provided user)
+- Expected input:
+    Nothing
+  
+- Possible outputs:
+**SUCCESS**:
+```json
+{
+    "success": true,
+    "message": "Friend list provided",
+    "friends": [
+        {
+          "id": 3,
+          ...
+        },
+        {
+          "id": 4,
+          ...
+        }
+    ] 
+}
+```
+
+**FAILED**:
+```json
+{
+    "success": false,
+    "message": "Unauthorized access"
+}
+```

@@ -50,7 +50,6 @@ class FriendsListController extends Controller
             array_push ($friends, $friend);
         }
 
-
         return (json_encode ([
             "success" => true,
             "message" => "Friend list provided",
