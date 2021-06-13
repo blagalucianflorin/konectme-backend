@@ -12,6 +12,7 @@ use App\Http\Controllers\FriendController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\FriendRequestsController;
 use App\Http\Controllers\FriendsListController;
+use App\Http\Controllers\ChatsListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,3 +95,6 @@ Route::patch ('/friendrequests/{id}', [FriendRequestsController::class, 'update'
 
 // Friend list routes
 Route::get ('/friendslist/{id}', [FriendsListController::class, 'show']);
+
+// Chats list routes
+Route::get ('/chatslist/{id}', [ChatsListController::class, 'show']);
