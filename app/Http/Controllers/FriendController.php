@@ -71,7 +71,7 @@ class FriendController extends Controller
      * @param  Request $request
      * @return string
      */
-    public function destroy (Request $request): string
+    public function destroy (Request $request, $id): string
     {
         $reqData = $request -> all ();
         $token   = $request -> bearerToken ();
@@ -82,7 +82,7 @@ class FriendController extends Controller
                 "message" => "Unauthorized access"
             ]));
 
-        $friendOne      = User::find ($reqData['friend_one']);
+        $friendOne      = User::find ($id);
         $friendTwo      = User::find ($reqData['friend_two']);
         $friendOneCheck = User::where ('token', '=', $token) -> first ();
 

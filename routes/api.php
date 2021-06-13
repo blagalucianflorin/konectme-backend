@@ -78,7 +78,7 @@ Route::post ('/login', [AuthController::class, 'login']);
 // Friend routes
 Route::get ('/friend', [FriendController::class, 'show']);
 
-Route::delete ('/friend', [FriendController::class, 'destroy']);
+Route::delete ('/friend/{id}', [FriendController::class, 'destroy']);
 
 // Status routes
 Route::get ('/status/{id}', [StatusController::class, 'show']);
