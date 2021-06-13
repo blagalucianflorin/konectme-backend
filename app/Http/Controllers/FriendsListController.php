@@ -47,7 +47,7 @@ class FriendsListController extends Controller
             {
                 $friend = User::find ($relationship -> friend_two_id);
             }
-            if ($friend -> accepted == true)
+            if ($relationship -> accepted == true)
                 array_push ($friends, $friend);
         }
 
