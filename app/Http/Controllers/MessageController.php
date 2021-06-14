@@ -69,16 +69,16 @@ class MessageController extends Controller
 
         if ($reqContent['expiry_time'] != '0')
         {
-            $newTime = Date ("Y-m-d H:i:s", strtotime (($reqContent['expiry_time'])." minutes", 
+            $newTime = Date ("Y-m-d H:i:s", strtotime (($reqContent['expiry_time'])." minutes",
                 strtotime ($message['sent_at'])));
-            $message['expiry_time'] = $newTime;
-        }    
-        else 
+            $message -> expiry_time = $newTime;
+        }
+        else
         {
             $newTime = Date ("Y-m-d H:i:s", strtotime ("525600 minutes", strtotime ($message['sent_at'])));
-            $message['expiry_time'] = $newTime;
-        }    
-     
+            $message -> expiry_time = $newTime;
+        }
+
         $message -> save ();
 
         return (json_encode([
@@ -129,7 +129,7 @@ class MessageController extends Controller
 
         $newContent = ($request -> all())['content'];
         $newType    = ($request -> all())['type'];
-      
+
         if($newType != $message['type'])
             return (json_encode([
                 "success" => false,
@@ -149,7 +149,7 @@ class MessageController extends Controller
                 "succes"  => false,
                 "message" => "Token does not exist"
             ]));
-        
+
         if($user -> id != $message['sender_id'])
             return (json_encode([
                 "succes"  => false,
@@ -194,7 +194,7 @@ class MessageController extends Controller
                 "succes"  => false,
                 "message" => "Token does not exist"
             ]));
-        
+
 
         if($user -> id != $message['sender_id'])
             return (json_encode([
