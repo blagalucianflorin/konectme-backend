@@ -67,19 +67,19 @@ class MessageController extends Controller
 
 //        $message = Message::find ($newMessage -> id);
 
-        if ($reqContent['expiry_time'] != '0')
-        {
-            $newTime = Date ("Y-m-d H:i:s", strtotime (($reqContent['expiry_time'])." minutes",
-                strtotime ($newMessage['sent_at'])));
-            $newMessage -> expiry_time = $newTime;
-        }
-        else
-        {
-            $newTime = Date ("Y-m-d H:i:s", strtotime ("525600 minutes", strtotime ($newMessage['sent_at'])));
-            $newMessage -> expiry_time = $newTime;
-        }
-
-        $newMessage -> save ();
+//        if ($reqContent['expiry_time'] != '0')
+//        {
+//            $newTime = Date ("Y-m-d H:i:s", strtotime (($reqContent['expiry_time'])." minutes",
+//                strtotime ($newMessage['sent_at'])));
+//            $newMessage -> expiry_time = $newTime;
+//        }
+//        else
+//        {
+//            $newTime = Date ("Y-m-d H:i:s", strtotime ("525600 minutes", strtotime ($newMessage['sent_at'])));
+//            $newMessage -> expiry_time = $newTime;
+//        }
+//
+//        $newMessage -> save ();
 
         return (json_encode([
             "success" => true,
