@@ -7,3 +7,9 @@
 [User stories](https://konectme.atlassian.net/browse/KONME-14?filter=10001)
 
 [Demo](https://youtu.be/LH5i5HRi9bQ)
+
+Design Patterns
+
+[Stateless component](https://github.com/konectme/konectme-frontend/blob/master/src/components/Button.js)
+[Conditional Rendering](https://github.com/konectme/konectme-frontend/blob/master/src/components/Chat/ChatBody.js)
+[Singleton](https://github.com/konectme/konectme-frontend/tree/master/src/components/Navbar)
